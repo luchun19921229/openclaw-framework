@@ -1,0 +1,87 @@
+---
+title: Architecture
+description: OpenClaw system architecture and design principles.
+---
+
+# Architecture
+
+## System Overview
+
+```
+┌─────────────┐     ┌──────────────┐     ┌─────────────┐
+│  Telegram   │     │   Discord    │     │   WeChat    │
+│  Bot Token  │     │   Bot Token  │     │   Bridge    │
+└──────┬──────┘     └──────┬───────┘     └──────┬──────┘
+       │                   │                    │
+       └───────────┬───────┴────────────────────┘
+                   │
+           ┌───────▼───────┐
+           │   Gateway     │  ← Session management, routing
+           │   (Node.js)   │
+           └───────┬───────┘
+                   │
+       ┌───────────┼───────────┐
+       │           │           │
+  ┌────▼────┐ ┌────▼────┐ ┌────▼────┐
+  │ Agent 1 │ │ Agent 2 │ │ Agent 3 │
+  │ (Main)  │ │(Research)│ │ (Trade) │
+  └────┬────┘ └────┬────┘ └────┬────┘
+       │           │           │
+       └───────────┼───────────┘
+                   │
+           ┌───────▼───────┐
+           │  Workspace    │  ← Shared files, memory, skills
+           │  (Filesystem) │
+           └───────────────┘
+```
+
+## Core Components
+
+### Gateway
+
+- Node.js process managing sessions and routing
+- Handles message I/O across channels (Telegram, Discord, WeChat)
+- Manages agent lifecycle (spawn, steer, kill)
+- Cron scheduler for timed tasks
+
+### Agent Runtime
+
+Each agent instance:
+- Reads workspace files at session start (SOUL.md, USER.md, AGENTS.md, MEMORY.md)
+- Gets tool access via runtime policies
+- Spawns sub-agents for complex tasks
+- Writes to daily memory logs
+
+### Workspace
+
+File-based, no database required:
+- **Root files** — Agent identity and configuration
+- **memory/** — Daily logs and long-term memory
+- **skills/** — Installed capabilities
+- **workspace/** — Active projects and data
+
+### Model Layer
+
+```
+┌─────────────┐
+│   Agent     │
+└──────┬──────┘
+       │
+  ┌────▼────────────────────────────┐
+  │         Model Router            │
+  ├─────────────────────────────────┤
+  │  Ollama (local)  │  qwen3.5:9b │
+  │  Ollama (local)  │  gemma4:26b │
+  │  MLX (Apple)     │  qwen3-4bit │
+  │  OpenAI API      │  gpt-4o     │
+  │  Anthropic API   │  claude-3.5 │
+  └─────────────────────────────────┘
+```
+
+## Design Principles
+
+1. **File over database** — Everything is a file, easy to read, edit, backup
+2. **Agent over chatbot** — Proactive, persistent, opinionated
+3. **Local-first** — Ollama/MLX before cloud APIs
+4. **Skill over monolith** — Composable capabilities, not bloated code
+5. **Memory over context window** — Structured memory beats prompt stuffing

@@ -1,0 +1,78 @@
+---
+title: Getting Started
+description: Install and configure OpenClaw in minutes.
+---
+
+# Getting Started
+
+## Installation
+
+```bash
+npm install -g openclaw
+```
+
+## Initialize Workspace
+
+```bash
+openclaw init
+```
+
+This creates the workspace structure:
+
+| File | Purpose |
+|------|---------|
+| `MEMORY.md` | Long-term curated memory |
+| `SOUL.md` | Agent personality & behavior rules |
+| `USER.md` | Human profile, timezone, preferences |
+| `AGENTS.md` | Workspace rules & safety boundaries |
+| `TOOLS.md` | Environment-specific notes |
+| `HEARTBEAT.md` | Proactive behavior configuration |
+
+## Start the Gateway
+
+```bash
+openclaw gateway start
+```
+
+The gateway manages sessions, routing, and agent lifecycle.
+
+## Connect a Channel
+
+```bash
+openclaw channel add telegram --token YOUR_BOT_TOKEN
+openclaw channel add discord --token YOUR_BOT_TOKEN
+openclaw channel add wechat
+```
+
+## Install Skills
+
+```bash
+clawhub install weather
+clawhub install github
+clawhub install edge-tts
+```
+
+Browse available skills at [clawhub.com](https://clawhub.com).
+
+## Configuration
+
+Main config file: `~/.openclaw/config.yaml`
+
+```yaml
+model:
+  default: "qwen3.5:9b"
+  provider: "ollama"
+
+agents:
+  default: "69c4045a-b17d-44e3-b7e5-0bafe2cea2f1"
+
+heartbeat:
+  enabled: true
+  interval: 30m
+```
+
+## Next Steps
+
+- [Agent Memory System](/docs/memory)
+- [Skill Development](/docs/skills)
+- [Multi-Agent Setup](/docs/multi-agent)

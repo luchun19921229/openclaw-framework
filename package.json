@@ -1,0 +1,30 @@
+{
+  "name": "openclaw",
+  "version": "1.0.0",
+  "description": "OpenClaw - AI Agent Control Center. A unified workspace framework for managing AI agents, memory, skills, and multi-model orchestration.",
+  "private": false,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luchun19921229/openclaw.git"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "main": "index.js",
+  "keywords": [],
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/luchun19921229/openclaw/issues"
+  },
+  "homepage": "https://github.com/luchun19921229/openclaw#readme",
+  "dependencies": {
+    "next": "^16.2.3",
+    "nextra": "^4.6.1",
+    "nextra-theme-docs": "^4.6.1",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  }
+}

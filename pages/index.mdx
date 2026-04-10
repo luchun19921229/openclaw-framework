@@ -1,0 +1,48 @@
+---
+title: OpenClaw - AI Agent Control Center
+description: A unified workspace framework for managing AI agents, memory, skills, and multi-model orchestration.
+---
+
+# OpenClaw
+
+**AI Agent Control Center** — A unified workspace framework for managing AI agents, memory, skills, and multi-model orchestration.
+
+OpenClaw provides a structured, file-based agent runtime that any AI agent (OpenClaw, nexu, Claude Code) can share. Think of it as an operating system for AI agents.
+
+## Why OpenClaw?
+
+- **File-based memory** — Agents persist context across sessions through structured files
+- **Multi-agent coordination** — Multiple agents share one workspace without conflicts
+- **Skill system** — Installable, composable capabilities via ClawHub
+- **Multi-model support** — Ollama, MLX, OpenAI, Claude, and more
+- **Heartbeat system** — Proactive agent behavior without polling loops
+- **Voice integration** — Edge-TTS, ElevenLabs, real-time voice dialog
+
+## Quick Start
+
+```bash
+npm install -g openclaw
+openclaw init
+openclaw gateway start
+```
+
+## Architecture
+
+```
+openclaw-workspace/
+├── MEMORY.md        # Long-term agent memory
+├── SOUL.md          # Agent personality & behavior
+├── USER.md          # Human profile & preferences
+├── AGENTS.md        # Workspace rules & safety
+├── TOOLS.md         # Environment-specific notes
+├── HEARTBEAT.md     # Proactive behavior config
+├── memory/          # Daily memory logs
+├── skills/          # Installed capabilities
+└── workspace/       # Active projects & files
+```
+
+## Links
+
+- [GitHub](https://github.com/luchun19921229/openclaw)
+- [Documentation](/docs/getting-started)
+- [Discord](https://discord.gg/clawd)

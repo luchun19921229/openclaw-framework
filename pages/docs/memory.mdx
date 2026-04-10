@@ -1,0 +1,82 @@
+---
+title: Agent Memory System
+description: File-based memory architecture for persistent agent context.
+---
+
+# Agent Memory System
+
+OpenClaw uses a **file-based memory architecture**. Agents wake up fresh each session — these files provide continuity.
+
+## Memory Layers
+
+### 1. Long-Term Memory (`MEMORY.md`)
+
+Curated knowledge, distilled from daily logs. Updated periodically.
+
+```markdown
+# MEMORY.md
+
+## 👤 User Profile
+- Name: Alex
+- Timezone: Asia/Shanghai
+- Projects: AI trading, content automation
+
+## 📌 Key Decisions
+- Using Ollama for local inference
+- Edge-TTS for voice output
+```
+
+### 2. Daily Memory (`memory/YYYY-MM-DD.md`)
+
+Raw logs of what happened each day. Created automatically.
+
+```markdown
+# 2026-04-10
+
+## Morning
+- Set up stock trading automation
+- Installed 3 new skills from ClawHub
+
+## Afternoon
+- Fixed memory leak in voice assistant
+- Deployed qwen3.5:9b as default model
+```
+
+### 3. Working Memory (Session Context)
+
+Within a session, the agent reads:
+- `SOUL.md` — personality and behavior
+- `USER.md` — who they're helping
+- `AGENTS.md` — rules and boundaries
+- Today's + yesterday's daily memory
+
+## Memory Lifecycle
+
+```
+Daily Logs → Weekly Review → MEMORY.md (distilled)
+```
+
+1. Agent writes events to daily memory files
+2. Periodically (during heartbeats), reviews recent daily files
+3. Distills significant events into MEMORY.md
+4. Removes outdated info from MEMORY.md
+
+## Security
+
+- `MEMORY.md` is **only loaded in direct sessions** with the human
+- **Never loaded in group chats** or shared contexts
+- Contains personal context that shouldn't leak
+
+## Search
+
+```bash
+openclaw memory search "trading strategy"
+openclaw memory get "user timezone"
+```
+
+## Best Practices
+
+- **Write it down** — "Mental notes" don't survive session restarts
+- **Be selective** — Only capture what matters
+- **Review regularly** — Daily logs accumulate fast
+- **Protect secrets** — Don't store API keys in memory files

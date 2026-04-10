@@ -1,0 +1,101 @@
+# =============================================================================
+# AI Butler 配置文件
+# =============================================================================
+
+# --- 通用配置 ---
+general:
+  name: "AI管家"
+  language: "zh-CN"
+  log_level: "INFO"           # DEBUG, INFO, WARNING, ERROR
+  config_reload_interval: 5   # 配置热重载检查间隔（秒）
+
+# --- Ollama 配置 ---
+ollama:
+  base_url: "http://127.0.0.1:11434"
+  chat_model: "qwen3.5:9b"
+  vision_model: "gemma4:26b"
+  timeout: 30                 # 请求超时（秒）
+  max_retries: 3
+
+# --- 视觉模块 ---
+vision:
+  enabled: true
+  camera_index: 0             # 摄像头索引（0 = 默认FaceTime摄像头）
+  camera_width: 640
+  camera_height: 480
+  capture_interval: 30        # 自动捕获间隔（秒），0 = 仅按需
+  screen_capture_method: "screencapture"  # screencapture | ScreenCaptureKit
+  jpeg_quality: 75            # JPEG压缩质量 (1-100)
+  max_image_tokens: 1024      # 发送给视觉模型的最大token
+  prompt: "请用中文简洁描述这张图片/屏幕截图的内容，重点关注正在做什么、看到了什么关键信息。"
+
+# --- 语音模块 ---
+voice:
+  enabled: true
+  # 录音参数
+  sample_rate: 16000
+  channels: 1
+  chunk_duration: 0.5         # 每次读取的音频块时长（秒）
+  
+  # VAD (语音活动检测)
+  vad:
+    energy_threshold: 0.003   # 能量阈值（需根据环境调整）
+    silence_timeout: 1.5      # 静音超时（秒），判定说话结束
+    min_speech_duration: 0.3  # 最短语音时长（秒），过滤误触发
+    pre_speech_buffer: 0.3    # 说话前缓冲（秒），确保不丢失开头
+  
+  # 语音识别 (faster-whisper)
+  stt:
+    model_size: "small"       # tiny, base, small, medium, large-v3
+    device: "cpu"             # cpu | cuda
+    compute_type: "int8"      # int8 | float16 | float32
+    language: "zh"
+    beam_size: 5
+    vad_filter: true
+  
+  # 语音合成 (edge-tts)
+  tts:
+    voice: "zh-CN-YunxiNeural"   # 男声: zh-CN-YunxiNeural, 女声: zh-CN-XiaoxiaoNeural
+    rate: "+0%"                    # 语速: -50% ~ +100%
+    volume: "+0%"                  # 音量: -50% ~ +100%
+    output_format: "audio-24khz-96kbitrate-mono-mp3"
+  
+  # 音频播放
+  playback:
+    backend: "afplay"             # afplay | sounddevice
+    interrupt_on_speech: true     # 检测到用户说话时打断AI播放
+  
+  # 唤醒词（留空 = 持续监听模式，不需要唤醒词）
+  wake_words: []  # ["小claw", "管家"]
+
+# --- 大脑模块 ---
+brain:
+  system_prompt: |
+    你是一个有用的AI管家，运行在用户的MacBook上。你可以：
+    - 看到用户的屏幕和摄像头画面
+    - 通过语音与用户自然对话
+    - 回答问题、提供建议、协助操作
+    
+    回复要求：
+    - 简洁直接，不要废话
+    - 中文回复
+    - 语音友好：避免复杂标点和格式符号
+    - 如果不确定，诚实说明
+  max_history: 20              # 保留的对话轮数
+  context_timeout: 300         # 上下文超时（秒），超过后清空对话历史
+
+# --- Gateway 桥接 ---
+gateway:
+  enabled: true
+  base_url: "http://127.0.0.1:18789"
+  sync_conversations: true     # 是否同步对话到OpenClaw记忆
+  sync_interval: 60            # 同步间隔（秒）
+  api_timeout: 10              # API超时（秒）
+
+# --- 守护进程 ---
+daemon:
+  pid_file: "/tmp/ai-butler.pid"
+  log_file: "~/.ai-butler/ai-butler.log"
+  auto_restart: true
+  max_restart_count: 5
+  restart_delay: 3             # 重启延迟（秒）

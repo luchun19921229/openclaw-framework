@@ -1,0 +1,13 @@
+{
+  "name": "openclaw-basic-agent-example",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Basic example of creating and running an OpenClaw agent",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@openclaw/core": "workspace:*"
+  }
+}

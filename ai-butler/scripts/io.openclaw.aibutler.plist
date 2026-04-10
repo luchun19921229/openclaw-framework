@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- 标签 -->
+    <key>Label</key>
+    <string>io.openclaw.aibutler</string>
+
+    <!-- 启动命令 -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>PYTHON_PATH</string>
+        <string>BUTLER_DIR/main.py</string>
+        <string>--config</string>
+        <string>USER_HOME/.ai-butler/config.yaml</string>
+        <string>--log-file</string>
+        <string>USER_HOME/.ai-butler/logs/ai-butler.log</string>
+        <string>--pid-file</string>
+        <string>USER_HOME/.ai-butler/ai-butler.pid</string>
+    </array>
+
+    <!-- 工作目录 -->
+    <key>WorkingDirectory</key>
+    <string>BUTLER_DIR</string>
+
+    <!-- 开机启动 -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- 自动重启（崩溃后恢复） -->
+    <key>KeepAlive</key>
+    <dict>
+        <key>SuccessfulExit</key>
+        <false/>
+        <key>Crashed</key>
+        <true/>
+    </dict>
+
+    <!-- 重启延迟 -->
+    <key>ThrottleInterval</key>
+    <integer>5</integer>
+
+    <!-- 环境变量 -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>HOME</key>
+        <string>USER_HOME</string>
+        <key>PYTHONUNBUFFERED</key>
+        <string>1</string>
+    </dict>
+
+    <!-- 标准输出/错误日志 -->
+    <key>StandardOutPath</key>
+    <string>USER_HOME/.ai-butler/logs/launchd-stdout.log</string>
+    <key>StandardErrorPath</key>
+    <string>USER_HOME/.ai-butler/logs/launchd-stderr.log</string>
+
+    <!-- 网络可用后启动（确保Ollama和Gateway可访问） -->
+    <key>EnableGlobbing</key>
+    <false/>
+</dict>
+</plist>

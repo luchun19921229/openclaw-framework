@@ -1,0 +1,34 @@
+{
+  "name": "@openclaw/cli",
+  "version": "1.0.0",
+  "description": "OpenClaw CLI — manage agents, gateways, and skills from the terminal",
+  "main": "src/index.js",
+  "type": "module",
+  "bin": {
+    "openclaw": "src/index.js"
+  },
+  "scripts": {
+    "test": "node --test src/**/*.test.js"
+  },
+  "keywords": [
+    "openclaw",
+    "cli",
+    "ai-agent",
+    "terminal"
+  ],
+  "author": "Luchun",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nexu-ai/openclaw.git",
+    "directory": "packages/cli"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {
+    "@openclaw/core": "workspace:*",
+    "commander": "^12.0.0"
+  },
+  "devDependencies": {}
+}

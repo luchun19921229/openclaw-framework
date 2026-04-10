@@ -1,0 +1,76 @@
+---
+title: Multi-Agent Setup
+description: Run multiple AI agents sharing one workspace.
+---
+
+# Multi-Agent Setup
+
+OpenClaw supports multiple agents sharing one workspace, each with their own identity and purpose.
+
+## Agent Structure
+
+Each agent has a unique ID and configuration:
+
+```
+agents/
+├── 69c4045a-b17d-44e3-b7e5-0bafe2cea2f1/   # Main agent
+│   ├── AGENTS.md
+│   ├── SOUL.md
+│   ├── MEMORY.md
+│   └── skills/
+├── a1b2c3d4-.../                            # Secondary agent
+│   └── ...
+```
+
+## Shared Resources
+
+Agents share:
+- **Workspace files** — Common project directory
+- **Skill registry** — Installed skills are available to all
+- **Gateway** — One gateway routes to all agents
+
+## Agent Isolation
+
+Each agent has private:
+- **MEMORY.md** — Agent-specific long-term memory
+- **SOUL.md** — Unique personality
+- **Daily logs** — Separate memory files
+- **Session history** — Isolated conversation threads
+
+## Sub-Agents
+
+Spawn isolated sub-agents for specific tasks:
+
+```bash
+openclaw spawn --task "Research quantum computing" --mode run
+```
+
+Sub-agents:
+- Run in isolated sessions
+- Auto-announce when done
+- Share workspace but not memory
+
+## Multi-Model Routing
+
+Different agents can use different models:
+
+```yaml
+agents:
+  main:
+    model: "qwen3.5:9b"
+    provider: "ollama"
+  research:
+    model: "gemma4:26b"
+    provider: "ollama"
+  fast:
+    model: "qwen2.5:1.5b"
+    provider: "ollama"
+```
+
+## Coordination
+
+Agents communicate via:
+- **Session messaging** — `sessions_send(sessionKey, message)`
+- **Sub-agent spawning** — `sessions_spawn(task, runtime)`
+- **Shared memory files** — Read/write common files
+- **Cron events** — Scheduled cross-agent triggers

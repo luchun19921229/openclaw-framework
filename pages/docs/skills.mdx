@@ -1,0 +1,79 @@
+---
+title: Skills System
+description: Installable, composable capabilities via ClawHub.
+---
+
+# Skills System
+
+Skills are modular capabilities that extend agent functionality. Install them from [ClawHub](https://clawhub.com) or build your own.
+
+## Installing Skills
+
+```bash
+clawhub install weather
+clawhub install github
+clawhub install edge-tts
+clawhub install deep-research
+```
+
+## How Skills Work
+
+Each skill is a directory containing:
+
+```
+skills/weather/
+├── SKILL.md      # Instructions for the agent
+├── index.js      # Optional runtime code
+└── config.json   # Skill configuration
+```
+
+When a user request matches a skill's description, the agent reads `SKILL.md` and follows its instructions.
+
+## Creating a Skill
+
+### 1. Create the directory
+
+```bash
+mkdir -p skills/my-skill
+```
+
+### 2. Write SKILL.md
+
+```markdown
+---
+name: my-skill
+description: Does something useful
+version: 1.0.0
+tags: [utility, automation]
+---
+
+# My Skill
+
+## Usage
+When the user says "do X", follow these steps:
+1. Step one
+2. Step two
+
+## Tools Required
+- exec
+- web_fetch
+```
+
+### 3. Publish to ClawHub
+
+```bash
+clawhub publish skills/my-skill
+```
+
+## Popular Skills
+
+| Skill | Description |
+|-------|-------------|
+| `weather` | Weather forecasts via wttr.in |
+| `github` | GitHub CLI operations |
+| `edge-tts` | Text-to-speech conversion |
+| `deep-research` | 8-step research methodology |
+| `tavily` | AI-optimized web search |
+| `docx` | Create/edit Word documents |
+
+Browse all skills at [clawhub.com](https://clawhub.com).

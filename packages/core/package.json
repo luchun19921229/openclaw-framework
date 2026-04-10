@@ -1,0 +1,38 @@
+{
+  "name": "@openclaw/core",
+  "version": "1.0.0",
+  "description": "OpenClaw core runtime — agent lifecycle, gateway, memory, and skills",
+  "main": "src/index.js",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.js",
+    "./agent": "./src/agent.js",
+    "./gateway": "./src/gateway.js",
+    "./memory": "./src/memory.js",
+    "./skills": "./src/skills.js"
+  },
+  "scripts": {
+    "test": "node --test src/**/*.test.js",
+    "lint": "eslint src/"
+  },
+  "keywords": [
+    "openclaw",
+    "ai-agent",
+    "llm",
+    "gateway",
+    "memory",
+    "skills"
+  ],
+  "author": "Luchun",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nexu-ai/openclaw.git",
+    "directory": "packages/core"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "dependencies": {},
+  "devDependencies": {}
+}
