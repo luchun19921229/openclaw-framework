@@ -434,9 +434,8 @@ def main() -> None:
         # 等待关闭信号
         await shutdown_event.wait()
 
-        # 触发butler关闭
+        # 触发butler关闭 — run() 的 finally 块会自动调用 stop()
         butler._running = False
-        await butler.stop()
         butler_task.cancel()
         try:
             await butler_task
